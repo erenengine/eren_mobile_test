@@ -137,3 +137,21 @@ fn android_main(app: AndroidApp) {
         }
     }
 }
+
+pub extern "C" fn start_rust_app() {
+    init_logger();
+
+    match WindowLifecycle::<TestWindowEventHandler>::new(WindowConfig {
+        width: 800,
+        height: 600,
+        title: "Test Window",
+        canvas_id: None,
+    })
+    .start_event_loop()
+    {
+        Ok(_) => {}
+        Err(e) => {
+            log::error!("Failed to start event loop: {}", e);
+        }
+    }
+}

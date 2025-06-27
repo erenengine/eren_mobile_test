@@ -159,7 +159,7 @@ impl Drop for TestWindowEventHandler {
 
 #[cfg(target_os = "android")]
 #[unsafe(no_mangle)]
-fn android_main() {
+fn android_main(app: AndroidApp) {
     env_logger::init();
 
     match WindowLifecycle::<TestWindowEventHandler>::new(WindowConfig {
@@ -168,7 +168,7 @@ fn android_main() {
         title: "Test Window",
         canvas_id: None,
     })
-    .start_event_loop()
+    .start_event_loop(app)
     {
         Ok(_) => {}
         Err(e) => {

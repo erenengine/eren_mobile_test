@@ -4,9 +4,7 @@ version = "0.1.0"
 edition = "2024"
 
 [lib]
-name = "eren_vulkan_android"
 crate-type = ["cdylib"]
-path = "src/lib.rs"
 
 [dependencies]
 eren_window = { path = "../../eren/eren_window" }

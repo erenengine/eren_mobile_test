@@ -6,7 +6,7 @@ import com.google.androidgamesdk.GameActivity
 class MainActivity : GameActivity() {
     companion object {
         init {
-            System.loadLibrary("eren_android")
+            System.loadLibrary("eren_mobile_test")
         }
     }
 

@@ -1,1 +1,0 @@
-void start_rust_app();

@@ -23,7 +23,7 @@
 
             <meta-data
                 android:name="android.app.lib_name"
-                android:value="eren_android" />
+                android:value="eren_mobile_test" />
         </activity>
     </application>
 

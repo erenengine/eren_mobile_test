@@ -146,8 +146,6 @@ impl WindowEventHandler for TestWindowEventHandler {
             let window_size = self.window.inner_size();
             self.recreate_swapchain(window_size.width, window_size.height);
         }
-
-        self.window.request_redraw();
     }
 }
 
@@ -177,6 +175,7 @@ fn android_main(app: AndroidApp) {
     }
 }
 
+#[cfg(target_os = "ios")]
 #[unsafe(no_mangle)]
 pub extern "C" fn start_rust_app() {
     env_logger::init();

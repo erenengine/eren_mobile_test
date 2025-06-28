@@ -25,7 +25,15 @@ pub fn init_logger() {
         console_log::init_with_level(Level::Debug).expect("Failed to init console_log");
     }
 
-    #[cfg(not(target_arch = "wasm32"))]
+    #[cfg(target_os = "android")]
+    {
+        use log::LevelFilter;
+        android_logger::init_once(
+            android_logger::Config::default().with_max_level(LevelFilter::Trace),
+        );
+    }
+
+    #[cfg(all(not(target_arch = "wasm32"), not(target_os = "android")))]
     {
         env_logger::init();
     }
@@ -77,6 +85,7 @@ impl<'a> WindowEventHandler for TestWindowEventHandler<'a> {
         log::debug!("Window resized: {}x{}", width, height);
 
         let scale_factor = self.window.scale_factor();
+
         self.device.resize_surface(
             &self.surface,
             width / scale_factor as u32,
@@ -88,6 +97,7 @@ impl<'a> WindowEventHandler for TestWindowEventHandler<'a> {
         log::debug!("Scale factor changed: {}", scale_factor);
 
         let window_size = self.window.inner_size();
+
         self.device.resize_surface(
             &self.surface,
             window_size.width / scale_factor as u32,
@@ -107,8 +117,6 @@ impl<'a> WindowEventHandler for TestWindowEventHandler<'a> {
                 window_size.height,
             )
             .unwrap();
-
-        self.window.request_redraw();
     }
 }
 
@@ -138,6 +146,7 @@ fn android_main(app: AndroidApp) {
     }
 }
 
+#[cfg(target_os = "ios")]
 #[unsafe(no_mangle)]
 pub extern "C" fn start_rust_app() {
     use std::env;

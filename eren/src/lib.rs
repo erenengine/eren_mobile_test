@@ -138,7 +138,13 @@ fn android_main(app: AndroidApp) {
     }
 }
 
+#[unsafe(no_mangle)]
 pub extern "C" fn start_rust_app() {
+    use std::env;
+    unsafe {
+        env::set_var("RUST_LOG", "debug");
+    }
+
     init_logger();
 
     match WindowLifecycle::<TestWindowEventHandler>::new(WindowConfig {

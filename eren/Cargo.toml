@@ -1,9 +1,10 @@
 [package]
-name = "eren_android"
+name = "eren_mobile_test"
 version = "0.1.0"
 edition = "2024"
 
 [lib]
+name = "eren_mobile_test"
 crate-type = ["cdylib", "staticlib"]
 
 [dependencies]

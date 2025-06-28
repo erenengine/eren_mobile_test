@@ -1,4 +1,4 @@
-package com.erenengine.myapplication
+package com.erenengine.eren_vulkan_mobile_test
 
 import org.junit.Test
 

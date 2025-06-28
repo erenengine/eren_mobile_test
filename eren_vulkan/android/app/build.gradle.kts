@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.erenengine.myapplication"
+    namespace = "com.erenengine.eren_vulkan_mobile_test"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.erenengine.myapplication"
+        applicationId = "com.erenengine.eren_vulkan_mobile_test"
         minSdk = 35
         targetSdk = 35
         versionCode = 1

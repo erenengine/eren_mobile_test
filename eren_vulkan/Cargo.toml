@@ -16,3 +16,4 @@ glam = "0.30.4"
 log = "0.4.27"
 winit = { version = "0.30.11", features = ["android-game-activity"] }
 thiserror = "2.0.12"
+android_logger = "0.15.0"

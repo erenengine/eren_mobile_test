@@ -6,7 +6,12 @@ use eren_vulkan_render_shared::{
     surface::Surface, swapchain::Swapchain,
 };
 use eren_window::window::{WindowConfig, WindowEventHandler, WindowLifecycle};
-use winit::{application::ApplicationHandler, event::{StartCause, WindowEvent}, event_loop::{ActiveEventLoop, EventLoop}, window::{Window, WindowId}};
+use winit::{
+    application::ApplicationHandler,
+    event::{StartCause, WindowEvent},
+    event_loop::{ActiveEventLoop, EventLoop},
+    window::{Window, WindowId},
+};
 
 #[cfg(target_os = "android")]
 use winit::platform::android::activity::AndroidApp;
@@ -20,6 +25,29 @@ mod test_vertex_input {
 }
 
 use crate::test_vertex_input::renderer::TestRenderer;
+
+pub fn init_logger() {
+    #[cfg(target_arch = "wasm32")]
+    {
+        use log::Level;
+
+        console_error_panic_hook::set_once();
+        console_log::init_with_level(Level::Debug).expect("Failed to init console_log");
+    }
+
+    #[cfg(target_os = "android")]
+    {
+        use log::LevelFilter;
+        android_logger::init_once(
+            android_logger::Config::default().with_max_level(LevelFilter::Trace),
+        );
+    }
+
+    #[cfg(all(not(target_arch = "wasm32"), not(target_os = "android")))]
+    {
+        env_logger::init();
+    }
+}
 
 struct TestWindowEventHandler {
     window: Arc<Window>,
@@ -144,6 +172,13 @@ impl WindowEventHandler for TestWindowEventHandler {
 
         if is_suboptimal {
             let window_size = self.window.inner_size();
+
+            log::debug!(
+                "Window resized (suboptimal): {}x{}",
+                window_size.width,
+                window_size.height
+            );
+
             self.recreate_swapchain(window_size.width, window_size.height);
         }
     }
@@ -158,7 +193,7 @@ impl Drop for TestWindowEventHandler {
 #[cfg(target_os = "android")]
 #[unsafe(no_mangle)]
 fn android_main(app: AndroidApp) {
-    env_logger::init();
+    init_logger();
 
     match WindowLifecycle::<TestWindowEventHandler>::new(WindowConfig {
         width: 800,
@@ -178,7 +213,7 @@ fn android_main(app: AndroidApp) {
 #[cfg(target_os = "ios")]
 #[unsafe(no_mangle)]
 pub extern "C" fn start_rust_app() {
-    env_logger::init();
+    init_logger();
 
     match WindowLifecycle::<TestWindowEventHandler>::new(WindowConfig {
         width: 800,

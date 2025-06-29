@@ -185,8 +185,7 @@ impl TestSubpass {
 
         let descriptor_set_layout = device.create_descriptor_set_layout(&[ubo_layout_binding])?;
 
-        let set_layouts = [descriptor_set_layout];
-        let pipeline_layout = device.create_pipeline_layout(&set_layouts, &[])?;
+        let pipeline_layout = device.create_pipeline_layout(&[descriptor_set_layout], &[])?;
 
         let binding_descriptions = [Vertex::get_binding_description()];
         let attribute_descriptions = Vertex::get_attribute_descriptions();

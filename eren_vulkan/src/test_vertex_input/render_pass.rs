@@ -50,11 +50,11 @@ impl TestRenderPass {
         let color_refs = [color_attachment_ref];
 
         // subpass 0
-        let subpass_desc = get_graphic_color_subpass_desc(&color_refs);
+        let subpass = get_graphic_color_subpass_desc(&color_refs);
 
         let render_pass = device.create_render_pass(
             &[color_attachment],
-            &[subpass_desc],
+            &[subpass],
             &[
                 // external -> subpass 0
                 vk::SubpassDependency2::default()
